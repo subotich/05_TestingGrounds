@@ -1,9 +1,5 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
 
-#ifndef __S05_TESTINGGROUNDS_H__
-#define __S05_TESTINGGROUNDS_H__
+#pragma once
 
-#include "EngineMinimal.h"
-
-
-#endif
+#include "CoreMinimal.h"

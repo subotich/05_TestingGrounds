@@ -1,5 +1,8 @@
-// Copyright 1998-2016 Epic Games, Inc. All Rights Reserved.
+// Copyright 1998-2019 Epic Games, Inc. All Rights Reserved.
+
 #pragma once 
+
+#include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
 #include "S05_TestingGroundsHUD.generated.h"
 
