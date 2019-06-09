@@ -7,6 +7,9 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/InputSettings.h"
+#include "../Weapons/Gun.h"
+
+// remove these
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
@@ -54,9 +57,12 @@ void AFirstPersonCharacter::BeginPlay()
 	// Call the base class  
 	Super::BeginPlay();
 
-	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
-	// TODO skip for now, fix later
-	//FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	if (GunBlueprint != NULL)
+	{
+		//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
+		Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
+		Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	}
 
 	// Show or hide the two versions of the gun based on whether or not we're using motion controllers.
 	// TODO skip for now, fix later

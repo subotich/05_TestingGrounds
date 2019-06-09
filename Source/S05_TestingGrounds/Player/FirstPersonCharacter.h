@@ -41,8 +41,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
 	FVector GunOffset;
 
-protected:
+	/** Gun class to spawn */
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+	TSubclassOf<class AGun> GunBlueprint;
 
+private:
+	AGun* Gun;
+
+protected:
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
 
@@ -72,7 +78,7 @@ protected:
 	void BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 	void EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location);
 	void TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location);
-	TouchData	TouchItem;
+	TouchData TouchItem;
 	
 protected:
 	// APawn interface
