@@ -56,7 +56,7 @@ protected:
 	// End of APawn interface
 
 private:
-	AGun* Gun;
+	class AGun* Gun;
 
 public:
 	AFirstPersonCharacter();
