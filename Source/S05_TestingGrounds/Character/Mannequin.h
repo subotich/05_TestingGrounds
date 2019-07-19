@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "CommonCharacter.h"
 #include "Mannequin.generated.h"
 
 UCLASS()
-class S05_TESTINGGROUNDS_API AMannequin : public ACharacter
+class S05_TESTINGGROUNDS_API AMannequin : public ACommonCharacter
 {
 	GENERATED_BODY()
 
