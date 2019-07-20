@@ -68,11 +68,11 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	// Enables firing
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::Fire);
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
 	
 }
 
-void AMannequin::Fire()
+void AMannequin::PullTrigger()
 {
 	if (Gun == nullptr)
 	{
