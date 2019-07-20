@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Components/InputComponent.h"
 #include "../Weapons/Gun.h"
 
 
@@ -44,6 +45,14 @@ void AMannequin::BeginPlay()
 	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); //Attach gun mesh component to Skeleton, doing it here because the skelton is not yet created in the constructor
 	Gun->AnimInstance = Mesh1P->GetAnimInstance();
 
+	// Challenged and moved to SetupPlayerInputComponent
+	/*
+	if (InputComponent != nullptr)
+	{
+		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::Fire);
+	}
+	*/
+
 }
 
 // Called every frame
@@ -58,9 +67,18 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Enables firing
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::Fire);
+	
 }
 
 void AMannequin::Fire()
 {
+	if (Gun == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Gun is nullptr"));
+		return;
+	}
 	Gun->OnFire();
+	
 }
