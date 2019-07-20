@@ -25,19 +25,19 @@ EBTNodeResult::Type UChooseNextWayPoint::ExecuteTask(UBehaviorTreeComponent& Own
 	auto PatrolPoints = PatrolRoute->GetPatrolPoints();
 	if (PatrolPoints.Num() == 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("No patrol points set"));
+		//UE_LOG(LogTemp, Warning, TEXT("No patrol points set"));
 		return EBTNodeResult::Failed;
 	}
 
 	// Set next waypoint (from ChooseNextWayPoint_BP function)
 	auto BlackboardComponent = OwnerComp.GetBlackboardComponent();
 	auto Index = BlackboardComponent->GetValueAsInt(IndexKey.SelectedKeyName);
-	UE_LOG(LogTemp, Warning, TEXT("Waypoint index: %i"), Index);
-	UE_LOG(LogTemp, Warning, TEXT("Waypoint name: %s"), *WaypointKey.SelectedKeyName.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Waypoint index: %i"), Index);
+	//UE_LOG(LogTemp, Warning, TEXT("Waypoint name: %s"), *WaypointKey.SelectedKeyName.ToString());
 	BlackboardComponent->SetValueAsObject(WaypointKey.SelectedKeyName, PatrolPoints[Index]);
 
 	// Cycle index (from ChooseNextWayPoint_BP function)
-	UE_LOG(LogTemp, Warning, TEXT("Patrol points size: %i"), PatrolPoints.Num());
+	//UE_LOG(LogTemp, Warning, TEXT("Patrol points size: %i"), PatrolPoints.Num());
 	auto NextIndex = (Index + 1) % PatrolPoints.Num();
 	BlackboardComponent->SetValueAsInt(IndexKey.SelectedKeyName, NextIndex);
 
