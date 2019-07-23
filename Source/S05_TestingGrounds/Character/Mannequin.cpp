@@ -42,7 +42,18 @@ void AMannequin::BeginPlay()
 		return;
 	}
 	Gun = GetWorld()->SpawnActor<AGun>(GunBlueprint);
-	Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint")); //Attach gun mesh component to Skeleton, doing it here because the skelton is not yet created in the constructor
+
+	//Attach gun mesh component to Skeleton, doing it here because the skelton is not yet created in the constructor
+	if (IsPlayerControlled())
+	{
+		Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	}
+	else
+	{
+		// If is not possesed by player (dead), attach it to default (3rdPerson mesh)
+		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
+	}
+																													   
 	//Gun->AnimInstance = Mesh1P->GetAnimInstance();
 	Gun->AnimInstance = GetMesh()->GetAnimInstance(); // this is because TP & FP obviously cannot go together from single class
 	// TODO has to be split and refactored, same for the gun & it's animations
@@ -72,6 +83,19 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	// Enables firing
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
 	
+}
+
+void AMannequin::UnPossessed()
+{
+	Super::UnPossessed();
+	
+	if (Gun == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Gun is nullptr UnPossessed"));
+		return;
+	}
+	// If is not possesed by player (dead), attach it to default (3rdPerson mesh)
+	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 }
 
 void AMannequin::PullTrigger()
