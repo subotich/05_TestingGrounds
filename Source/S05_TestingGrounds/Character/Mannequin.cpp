@@ -54,8 +54,8 @@ void AMannequin::BeginPlay()
 		Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 	}
 																													   
-	//Gun->AnimInstance = Mesh1P->GetAnimInstance();
-	Gun->AnimInstance = GetMesh()->GetAnimInstance(); // this is because TP & FP obviously cannot go together from single class
+	Gun->AnimInstance1P = Mesh1P->GetAnimInstance();
+	Gun->AnimInstance3P = GetMesh()->GetAnimInstance(); // this is because TP & FP obviously cannot go together from single class
 	// TODO has to be split and refactored, same for the gun & it's animations
 
 	// Challenged and moved to SetupPlayerInputComponent
