@@ -53,14 +53,18 @@ bool ATile::CastSphere(FVector Location, float Radius)
 	bool HasHit = GetWorld()->SweepSingleByChannel(
 		HitResult,
 		Location,
-		Location,
+		Location + FVector(0, 0, 1),		// Fix for UE 4.22.2
 		FQuat::Identity,
-		ECollisionChannel::ECC_Camera,
+		ECollisionChannel::ECC_GameTraceChannel2,
 		FCollisionShape::MakeSphere(Radius)
 	);
 
 	FColor ResultColor = HasHit ? FColor::Red : FColor::Green;
-	DrawDebugSphere(GetWorld(), Location, Radius, 100, ResultColor, true, 100);
+	//DrawDebugSphere(GetWorld(), Location, Radius, 100, ResultColor, true, 100);
+	DrawDebugCapsule(GetWorld(), Location, 0, Radius, FQuat::Identity, ResultColor, true, 100);
+
+	// Check hits
+	UE_LOG(LogTemp, Warning, TEXT("Is hit: %s"), (HasHit ? TEXT("True") : TEXT("False")));
 
 	return HasHit;
 }
