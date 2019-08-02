@@ -13,6 +13,21 @@ ATile::ATile()
 
 }
 
+// Called when the game starts or when spawned
+void ATile::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
+// Called every frame
+void ATile::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+// Configured in the blueprint's event graph
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
@@ -64,20 +79,6 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Ro
 }
 
 
-// Called when the game starts or when spawned
-void ATile::BeginPlay()
-{
-	Super::BeginPlay();
-
-}
-
-// Called every frame
-void ATile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
 // TODO check overlapping functionality, still issues with spawns 
 bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 {
@@ -95,11 +96,13 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 
 	//FColor ResultColor = HasHit ? FColor::Red : FColor::Green;
 	
-	// Draw speheres/capsules
+	// Draw spheres/capsules
+
 	//DrawDebugSphere(GetWorld(), Location, Radius, 100, ResultColor, true, 100);
 	//DrawDebugCapsule(GetWorld(), GlobalLocation, 0, Radius, FQuat::Identity, ResultColor, true, 100);
 	
 	// Check hits
+
 	//UE_LOG(LogTemp, Warning, TEXT("Is hit: %s"), (HasHit ? TEXT("True") : TEXT("False")));
 
 	return HasHit;
