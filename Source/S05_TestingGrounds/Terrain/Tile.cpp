@@ -13,22 +13,25 @@ ATile::ATile()
 
 }
 
-void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius)
+void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
 
 	for (size_t i = 0; i < NumberToSpawn; i++)
 	{
 		FVector SpawnPoint;
-		bool bFoundEmptyLocation = FindEmptyLocation(SpawnPoint, Radius);
+		float RandomScale = FMath::RandRange(MinScale, MaxScale);
+
+		bool bFoundEmptyLocation = FindEmptyLocation(SpawnPoint, (Radius * RandomScale));
+
 		if (bFoundEmptyLocation)
 		{
-			PlaceActor(ToSpawn, SpawnPoint);
+			float RandomRotation = FMath::RandRange(-180.f, 180.f);
+			PlaceActor(ToSpawn, SpawnPoint, RandomRotation, RandomScale);
 		}
 	}
 
 }
-
 
 bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 {
@@ -50,11 +53,14 @@ bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 }
 
 
-void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint)
+void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale)
 {
 	AActor* Spawned = GetWorld()->SpawnActor(ToSpawn);
 	Spawned->SetActorRelativeLocation(SpawnPoint);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	Spawned->SetActorRotation(FRotator(0, Rotation, 0));
+	   	
+	Spawned->SetActorScale3D(FVector(Scale));
 }
 
 
@@ -62,8 +68,6 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint)
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
-	//CanSpawnAtLocation(GetActorLocation(), 300);
-	//CanSpawnAtLocation(GetActorLocation() + FVector(0, 0, 1000), 300);
 
 }
 
@@ -74,6 +78,7 @@ void ATile::Tick(float DeltaTime)
 
 }
 
+// TODO check overlapping functionality, still issues with spawns 
 bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 {
 	FHitResult HitResult;
@@ -88,12 +93,14 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 		FCollisionShape::MakeSphere(Radius)
 	);
 
-	FColor ResultColor = HasHit ? FColor::Red : FColor::Green;
+	//FColor ResultColor = HasHit ? FColor::Red : FColor::Green;
+	
+	// Draw speheres/capsules
 	//DrawDebugSphere(GetWorld(), Location, Radius, 100, ResultColor, true, 100);
-	DrawDebugCapsule(GetWorld(), GlobalLocation, 0, Radius, FQuat::Identity, ResultColor, true, 100);
-
+	//DrawDebugCapsule(GetWorld(), GlobalLocation, 0, Radius, FQuat::Identity, ResultColor, true, 100);
+	
 	// Check hits
-	UE_LOG(LogTemp, Warning, TEXT("Is hit: %s"), (HasHit ? TEXT("True") : TEXT("False")));
+	//UE_LOG(LogTemp, Warning, TEXT("Is hit: %s"), (HasHit ? TEXT("True") : TEXT("False")));
 
 	return HasHit;
 }
