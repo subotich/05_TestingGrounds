@@ -3,6 +3,7 @@
 
 #include "GrassComponent.h"
 
+
 // Sets default values for this component's properties
 UGrassComponent::UGrassComponent()
 {
@@ -19,10 +20,17 @@ void UGrassComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	SpawnGrass();
 }
 
+void UGrassComponent::SpawnGrass()
+{
+	for (size_t i = 0; i < SpawnCount; i++)
+	{
+		FVector Location = FMath::RandPointInBox(SpawningExtents);
+		AddInstance(FTransform(Location));
+	}
+}
 
 // Called every frame
 void UGrassComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -31,4 +39,3 @@ void UGrassComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 	// ...
 }
-
