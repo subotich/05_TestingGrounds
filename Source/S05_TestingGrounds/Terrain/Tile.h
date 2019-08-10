@@ -21,6 +21,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500.f, float MinScale = 1.f, float MaxScale = 1.f);
 
+	UFUNCTION(BlueprintCallable, Category = "Pool")
+	void SetPool(class UActorPool* Pool);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -32,5 +35,7 @@ private:
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Rotation, float Scale);
 
 	bool CanSpawnAtLocation(FVector Location, float Radius);
+
+	class UActorPool* Pool;
 
 };
