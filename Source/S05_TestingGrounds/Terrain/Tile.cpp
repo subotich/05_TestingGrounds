@@ -5,6 +5,7 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "ActorPool.h"
+#include "NavigationSystem.h"
 
 // Sets default values
 ATile::ATile()
@@ -14,6 +15,7 @@ ATile::ATile()
 	
 	Min = FVector(0, -2000, 0);
 	Max = FVector(4000, 2000, 0);
+	NavigationBoundsOffset = FVector(2000, 0, 0);
 }
 
 // Called when the game starts or when spawned
@@ -80,7 +82,26 @@ void ATile::PositionNavMeshBoundsVolume()
 		return;
 	}
 	UE_LOG(LogTemp, Error, TEXT("[%s] Checked out: {%s}"), *GetName(), *NavMeshBoundsVolume->GetName());
-	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
+	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavigationBoundsOffset);
+	
+	// After moving NavMeshBoundsVolume it has to be rebuild
+	// Updated navigation system
+	// TODO implement this, it doesn't work
+	/*
+	FNavigationSystem::Build(*GetWorld());
+
+	auto WorldSettings = GetWorldSettings();
+
+	auto isNavigationBuild = GetWorld()->GetNavigationSystem()->IsNavigationBuilt(WorldSettings);
+	if (isNavigationBuild)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Navi build."));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Navi NOT build."));
+	}
+	*/
 }
 
 bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)

@@ -2,7 +2,7 @@
 
 
 #include "InfiniteTerrainGameMode.h"
-#include "Navmesh/NavMeshBoundsVolume.h"
+#include "NavMesh/NavMeshBoundsVolume.h"
 #include "EngineUtils.h"
 #include "ActorPool.h"
 
