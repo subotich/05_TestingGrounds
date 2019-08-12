@@ -53,6 +53,16 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn,
 	}
 }
 
+void ATile::PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int MinSpawn, int MaxSpawn, float Radius)
+{
+	TArray<FSpawnPoint> SpawnPositions = RandomSpawnPositions(MinSpawn, MaxSpawn, Radius, 1, 1);
+
+	for (FSpawnPoint SpawnPosition : SpawnPositions)
+	{
+		PlaceAIPawn(ToSpawn, SpawnPosition);
+	}
+}
+
 TArray<FSpawnPoint> ATile::RandomSpawnPositions(int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	TArray<FSpawnPoint> SpawnPositions;
@@ -146,6 +156,16 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPoint SpawnPosition)
 	Spawned->SetActorScale3D(FVector(SpawnPosition.Scale));
 }
 
+
+void ATile::PlaceAIPawn(TSubclassOf<APawn> ToSpawn, FSpawnPoint SpawnPosition)
+{
+	APawn* Spawned = GetWorld()->SpawnActor<APawn>(ToSpawn);
+	Spawned->SetActorRelativeLocation(SpawnPosition.Location);
+	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	Spawned->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
+	Spawned->SpawnDefaultController();
+	Spawned->Tags.Add(FName("Enemy"));
+}
 
 // TODO check overlapping functionality, still issues with spawns 
 bool ATile::CanSpawnAtLocation(FVector Location, float Radius)

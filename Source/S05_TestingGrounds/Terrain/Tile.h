@@ -29,8 +29,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
 	void PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500.f, float MinScale = 1.f, float MaxScale = 1.f);
+
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
+	void PlaceAIPawns(TSubclassOf<APawn> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500.f);
 
 	UFUNCTION(BlueprintCallable, Category = "Pool")
 	void SetPool(class UActorPool* Pool);
@@ -57,6 +60,8 @@ private:
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
 
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPoint SpawnPosition);
+
+	void PlaceAIPawn(TSubclassOf<APawn> ToSpawn, FSpawnPoint SpawnPosition);
 
 	bool CanSpawnAtLocation(FVector Location, float Radius);
 
